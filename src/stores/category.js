@@ -1,12 +1,12 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { getCategoryHeadListApi } from '@/apis/layout'
+import { getcategoryListApi } from '@/apis/layout'
 export const useCategoryStore = defineStore('category', () => {
-  const categoryHeadList = ref([])
+  const categoryList = ref([])
   const getCategoryList = async () => {
-    const res = await getCategoryHeadListApi()
-    categoryHeadList.value = res.result
+    const res = await getcategoryListApi()
+    categoryList.value = res.result
   }
 
-  return { categoryHeadList, getCategoryList }
+  return { categoryList, getCategoryList }
 })

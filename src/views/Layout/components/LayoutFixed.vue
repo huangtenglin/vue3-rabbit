@@ -4,7 +4,7 @@
       <RouterLink class="logo" to="/" />
       <!-- 导航区域 -->
       <ul class="app-header-nav">
-        <li v-for="item in categoryStore.categoryHeadList" :key="item.id">
+        <li v-for="item in categoryStore.categoryList" :key="item.id">
           <RouterLink to="/">{{ item.name }}</RouterLink>
         </li>
       </ul>
