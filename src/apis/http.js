@@ -7,12 +7,12 @@ const http = axios.create({
 })
 
 // axios请求拦截器
-instance.interceptors.request.use(config => {
+http.interceptors.request.use(config => {
   return config
 }, e => Promise.reject(e))
 
 // axios响应式拦截器
-instance.interceptors.response.use(res => res.data, e => {
+http.interceptors.response.use(res => res.data, e => {
   return Promise.reject(e)
 })
 
