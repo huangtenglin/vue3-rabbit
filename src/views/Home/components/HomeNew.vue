@@ -3,8 +3,8 @@
     <template #main>
       <ul class="goods-list" name="main">
         <li v-for="item in newList" :key="item.id">
-          <RouterLink to="/">
-            <img :src="item.picture" alt="" />
+          <RouterLink :to="`/detail/${item.id}`">
+            <img v-img-lazy="item.picture" alt="" />
             <p class="name">{{ item.name }}</p>
             <p class="price">&yen;{{ item.price }}</p>
           </RouterLink>
