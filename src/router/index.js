@@ -30,7 +30,11 @@ const router = createRouter({
       name: 'login',
       component: () => import("@/views/Login")
     }
-  ]
+  ],
+  scrollBehavior () {
+    // return 期望滚动到哪个的位置
+    return { top: 0 }
+  }
 })
 
 export default router

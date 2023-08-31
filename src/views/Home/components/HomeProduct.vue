@@ -30,7 +30,7 @@
 import HomePanel from './HomePanel.vue'
 import { getGoodsAPI } from '@/apis/home'
 import { onMounted, ref } from 'vue'
-import GoodsItem from './GoodsItem.vue'
+import GoodsItem from '../../../components/GoodsItem.vue'
 
 const goodsProduct = ref([])
 

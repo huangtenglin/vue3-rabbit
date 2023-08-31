@@ -16,12 +16,20 @@
       </el-breadcrumb>
     </div>
     <div class="sub-container">
-      <el-tabs>
+      <el-tabs
+        type="border-card"
+        v-model="reqData.sortField"
+        @tab-change="tabChange"
+      >
         <el-tab-pane label="最新商品" name="publishTime"></el-tab-pane>
         <el-tab-pane label="最高人气" name="orderNum"></el-tab-pane>
         <el-tab-pane label="评论最多" name="evaluateNum"></el-tab-pane>
       </el-tabs>
-      <div class="body">
+      <div
+        class="body"
+        v-infinite-scroll="load"
+        :infinite-scroll-disabled="disabled"
+      >
         <!-- 商品列表-->
         <GoodsItem v-for="goods in goodList" :key="goods.id" :goods="goods" />
       </div>
@@ -52,13 +60,22 @@ const reqData = ref({
 const getGoodList = async (data = reqData.value) => {
   const res = await getSubCategoryAPI(data)
   goodList.value = res.result.items
-  console.log(goodList.value)
 }
 
-const tabChange = () => {
-  console.log('tab切换了', reqData.value.sortField)
+const tabChange = (tab) => {
   reqData.value.page = 1
-  getGoodList()
+  getGoodList(reqData.value)
+}
+// 无限滚动加载
+let disabled = ref(false)
+const load = async () => {
+  console.log(111111)
+  reqData.value.page += 1
+  const res = await getSubCategoryAPI(reqData.value)
+  goodList.value = [...goodList.value, ...res.result.items]
+  if (res.result.items.length <= 0) {
+    disabled.value = true
+  }
 }
 
 
