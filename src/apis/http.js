@@ -1,4 +1,7 @@
 import axios from 'axios'
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 // 创建axios实例
 const http = axios.create({
@@ -8,6 +11,10 @@ const http = axios.create({
 
 // axios请求拦截器
 http.interceptors.request.use(config => {
+  const token = userStore.userInfo.token
+  if (token) {
+    config.headers.Authorization = token
+  }
   return config
 }, e => Promise.reject(e))
 

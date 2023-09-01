@@ -2,7 +2,7 @@
   <nav class="app-topnav">
     <div class="container">
       <ul>
-        <template v-if="userStore.userInfo">
+        <template v-if="userStore.userInfo.token">
           <li>
             <a href="javascript:;"
               ><i class="iconfont icon-user"></i
