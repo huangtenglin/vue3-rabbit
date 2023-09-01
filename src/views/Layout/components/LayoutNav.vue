@@ -11,6 +11,7 @@
           </li>
           <li>
             <el-popconfirm
+              @confirm="layoutLogin"
               title="确认退出吗?"
               confirm-button-text="确认"
               cancel-button-text="取消"
@@ -34,8 +35,15 @@
 </template>
 <script setup>
 import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const userStore = useUserStore()
+
+const layoutLogin = () => {
+  userStore.clearUserInfo()
+  router.push('/login')
+}
 
 </script>
 
