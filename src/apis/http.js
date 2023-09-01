@@ -1,7 +1,10 @@
 import axios from 'axios'
 import { useUserStore } from '@/stores/user'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const userStore = useUserStore()
+
 
 // 创建axios实例
 const http = axios.create({
@@ -20,6 +23,12 @@ http.interceptors.request.use(config => {
 
 // axios响应式拦截器
 http.interceptors.response.use(res => res.data, e => {
+  // token 失效401拦截
+  if (e.response.status == 401) {
+    // 请求用户数据
+    userStore.clearUserInfo()
+    router.push('/login')
+  }
   return Promise.reject(e)
 })
 
