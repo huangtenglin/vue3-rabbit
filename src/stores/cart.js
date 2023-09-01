@@ -16,5 +16,9 @@ export const useCartStore = defineStore('cart', () => {
       cartList.value.push(good)
     }
   }
-  return { cartList, addCart }
+  // 删除购物车操作
+  const delCart = (id) => {
+    cartList.value = cartList.value.filter(item => item.skuId == id)
+  }
+  return { cartList, addCart, delCart }
 })
