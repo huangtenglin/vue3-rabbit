@@ -1,6 +1,4 @@
 <template>
-  x:{{ elementX }},y:{{ elementY }}
-
   <div class="goods-image">
     <!-- 左侧大图-->
     <div class="middle" ref="target">
@@ -31,13 +29,19 @@
 <script setup>
 import { useMouseInElement } from '@vueuse/core'
 import { ref, watch } from 'vue'
-const imageList = [
-  "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
-  "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
-  "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
-  "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
-  "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
-]
+const props = defineProps({
+  imageList: {
+    type: Array,
+    default: () => []
+  }
+})
+// const imageList = [
+//   "https://yanxuan-item.nosdn.127.net/d917c92e663c5ed0bb577c7ded73e4ec.png",
+//   "https://yanxuan-item.nosdn.127.net/e801b9572f0b0c02a52952b01adab967.jpg",
+//   "https://yanxuan-item.nosdn.127.net/b52c447ad472d51adbdde1a83f550ac2.jpg",
+//   "https://yanxuan-item.nosdn.127.net/f93243224dc37674dfca5874fe089c60.jpg",
+//   "https://yanxuan-item.nosdn.127.net/f881cfe7de9a576aaeea6ee0d1d24823.jpg"
+// ]
 
 // 小图切换大图的显示
 let curIndex = ref(0)

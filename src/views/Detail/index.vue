@@ -31,7 +31,7 @@
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-              <ImageView />
+              <XtsImageView :imageList="goods.mainPictures" />
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
@@ -80,7 +80,7 @@
                 </dl>
               </div>
               <!-- sku组件 -->
-
+              <XtsSku :goods="goods" @change="skuChange" />
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
@@ -131,11 +131,13 @@
   </div>
 </template>
 <script setup>
-import DetailHot from './components/DetailHot.vue'
-import ImageView from '@/components/ImageView.vue'
+
 import { onMounted, ref, watch } from 'vue'
 import { getDetailApi } from '@/apis/detail'
 import { useRoute, useRouter } from 'vue-router'
+
+import DetailHot from './components/DetailHot.vue'
+
 
 // 路由
 const route = useRoute()
@@ -161,6 +163,8 @@ watch(() => router.currentRoute.value,
     getGoods(route.params.id)
   },
   { immediate: false })
+
+const skuChange = (data) => { console.log(data) }
 </script>
 
 <style scoped lang='scss'>
