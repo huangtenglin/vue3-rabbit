@@ -82,10 +82,12 @@
               <!-- sku组件 -->
               <XtsSku :goods="goods" @change="skuChange" />
               <!-- 数据组件 -->
-
+              <el-input-number v-model="count" @change="countChange" />
               <!-- 按钮组件 -->
               <div>
-                <el-button size="large" class="btn"> 加入购物车 </el-button>
+                <el-button @click="addCartList" size="large" class="btn">
+                  加入购物车
+                </el-button>
               </div>
             </div>
           </div>
@@ -137,6 +139,8 @@ import { getDetailApi } from '@/apis/detail'
 import { useRoute, useRouter } from 'vue-router'
 
 import DetailHot from './components/DetailHot.vue'
+import { useCartStore } from '@/stores/cart'
+const cartStore = useCartStore()
 
 
 // 路由
@@ -144,6 +148,15 @@ const route = useRoute()
 const router = useRouter()
 
 const goods = ref({})
+
+// 计数
+const count = ref(0)
+
+const countChange = (count) => {
+  console.log(count)
+}
+
+
 
 const getGoods = async (id) => {
   try {
@@ -164,7 +177,27 @@ watch(() => router.currentRoute.value,
   },
   { immediate: false })
 
-const skuChange = (data) => { console.log(data) }
+// 规格
+const sku = ref({})
+const skuChange = (data) => { sku.value = data }
+
+const addCartList = () => {
+  if (sku.value.skuId) {
+    cartStore.addCart({
+      id: goods.value.id,
+      name: goods.value.name,
+      picture: goods.value.mainPictures[0],
+      price: goods.value.price,
+      count: count.value,
+      skuId: sku.value.skuId,
+      attrsText: sku.value.specsText,
+      selected: true
+    })
+  } else {
+    ElMessage.warning('请选择规格')
+  }
+}
+
 </script>
 
 <style scoped lang='scss'>
