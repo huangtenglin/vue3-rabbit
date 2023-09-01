@@ -68,13 +68,16 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { loginAPI } from '@/apis/login'
 
 import { ElMessage } from 'element-plus'
 import 'element-plus/theme-chalk/el-message.css'
 
 import { useRouter } from 'vue-router'
 const router = useRouter()
+
+import { useUserStore } from '@/stores/user'
+
+const userStore = useUserStore()
 
 // 表单数据
 const userInfo = ref({
@@ -103,7 +106,7 @@ const submitForm = () => {
   formEl.value.validate(async (valid) => {
     if (valid) {
       try {
-        await loginAPI({ account, password })
+        await userStore.getUserInfo({ account, password })
         // 1. 提示用户
         ElMessage({ type: 'success', message: '登录成功' })
         // 2. 跳转首页
