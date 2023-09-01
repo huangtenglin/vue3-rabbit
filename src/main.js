@@ -15,9 +15,15 @@ import 'element-plus/dist/index.css'
 
 import '@/styles/common.scss'
 
+// 引进数据持久化插件
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
+
 const app = createApp(App)
 
-app.use(createPinia())
+const pinia = createPinia()
+pinia.use(piniaPluginPersistedstate)
+app.use(pinia)
+
 app.use(router)
 // 加载懒加载命令
 app.use(lazyPlugin)
