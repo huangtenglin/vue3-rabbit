@@ -24,5 +24,19 @@ export const useCartStore = defineStore('cart', () => {
   const allCount = computed(() => cartList.value.reduce((a, c) => a + c.count, 0))
   // 计算总价
   const allPrice = computed(() => cartList.value.reduce((a, c) => a + c.count * c.price, 0))
-  return { cartList, addCart, delCart, allCount, allPrice }
+  // 单选功能
+  const singleCheck = (skuId, selected) => {
+    const item = cartList.value.find(item => item.skuId === skuId)
+    item.selected = selected
+  }
+  // 购物清单列表全选功能
+  const allCheck = (selected) => {
+    cartList.value.forEach(cart => cart.selected = selected)
+  }
+  // 是否全选计算属性
+  const isAll = computed(() => cartList.value.every((item) => item.selected))
+
+  return { cartList, addCart, delCart, allCount, allPrice, singleCheck, allCheck, isAll }
+}, {
+  persist: true
 })
