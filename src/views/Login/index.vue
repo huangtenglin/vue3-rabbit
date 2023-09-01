@@ -19,19 +19,31 @@
         </nav>
         <div class="account-box">
           <div class="form">
-            <el-form label-position="right" label-width="60px" status-icon>
-              <el-form-item label="账户">
-                <el-input />
+            <el-form
+              ref="formEl"
+              :model="userInfo"
+              status-icon
+              :rules="rules"
+              label-position="right"
+              label-width="60px"
+            >
+              <el-form-item label="账户" prop="account">
+                <el-input v-model="userInfo.account" />
               </el-form-item>
-              <el-form-item label="密码">
-                <el-input />
+              <el-form-item label="密码" prop="password">
+                <el-input v-model="userInfo.password" />
               </el-form-item>
-              <el-form-item label-width="22px">
-                <el-checkbox size="large">
+              <el-form-item label-width="22px" prop="agree">
+                <el-checkbox size="large" v-model="userInfo.agree">
                   我已同意隐私条款和服务条款
                 </el-checkbox>
               </el-form-item>
-              <el-button size="large" class="subBtn">点击登录</el-button>
+              <el-button
+                @click="submitForm(ruleFormRef)"
+                size="large"
+                class="subBtn"
+                >点击登录</el-button
+              >
             </el-form>
           </div>
         </div>
@@ -54,7 +66,58 @@
     </footer>
   </div>
 </template>
-<script setup></script>
+<script setup>
+import { ref } from 'vue'
+import { loginAPI } from '@/apis/login'
+
+import { ElMessage } from 'element-plus'
+import 'element-plus/theme-chalk/el-message.css'
+
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
+// 表单数据
+const userInfo = ref({
+  account: '13111111111',
+  password: '123456',
+  agree: true
+})
+const validateAgree = (rule, value, callback) => {
+  if (value == '') callback('请先同意协议')
+  callback()
+}
+const rules = {
+  account: [{ required: true, message: '用户名不能为空', trigger: 'blur' }],
+  password: [
+    { required: true, message: '密码不能为空' },
+    { min: 6, max: 24, message: '密码长度要求6-14个字符' }
+  ],
+  agree: [{ required: true, validator: validateAgree }]
+}
+
+// 表单登录
+const formEl = ref(null)
+const submitForm = () => {
+  if (!formEl.value) return
+  const { account, password } = userInfo.value
+  formEl.value.validate(async (valid) => {
+    if (valid) {
+      try {
+        await loginAPI({ account, password })
+        // 1. 提示用户
+        ElMessage({ type: 'success', message: '登录成功' })
+        // 2. 跳转首页
+        router.replace({ path: '/' })
+      } catch (error) {
+        console.log("登录接口登录失败~", error)
+      }
+    } else {
+      console.log('error submit!')
+      return false
+    }
+  })
+} 
+</script>
 <style scoped lang='scss'>
 .login-header {
   background: #fff;
